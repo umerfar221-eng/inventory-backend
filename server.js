@@ -2,7 +2,9 @@ const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 console.log("SERVER LOADED");
 // 🔗 CONNECT MYSQL
@@ -171,6 +173,10 @@ app.get("/force-sale", (req, res) => {
 app.get("/hello", (req, res) => {
   res.send("HELLO WORKING");
 });
+
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+}); 
 
 const PORT = process.env.PORT || 5000;
 
