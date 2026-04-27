@@ -6,12 +6,7 @@ app.use(cors({
   origin: "*"
 }));
 app.use(express.json());
-const db = mysql.createPool({
-  uri: process.env.MYSQL_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+const db = mysql.createPool(process.env.MYSQL_URL);
 
 // ➕ ADD PRODUCT
 app.post("/products", (req, res) => {
