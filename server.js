@@ -14,7 +14,8 @@ const db = mysql.createPool({
   port: process.env.MYSQLPORT,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  connectTimeout: 10000
 });
 
 // ➕ ADD PRODUCT
