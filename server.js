@@ -7,11 +7,11 @@ app.use(cors({
 }));
 app.use(express.json());
 const db = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT,
+  host: process.env.mysql.railway.internal,
+  user: process.env.root,
+  password: process.env.mKnshhUWJfurYDCZCelINbbvZzAUzEqP,
+  database: process.env.railway,
+  port: process.env.3306,
   ssl: {
     rejectUnauthorized: false
   },
