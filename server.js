@@ -6,13 +6,15 @@ app.use(cors({
   origin: "*"
 }));
 app.use(express.json());
-console.log("SERVER LOADED");
-// 🔗 CONNECT MYSQL
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root123",
-  database: "inventory",
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 db.connect(err => {
