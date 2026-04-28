@@ -6,7 +6,25 @@ app.use(cors({
   origin: "*"
 }));
 app.use(express.json());
-const db = mysql.createPool(process.env.MYSQL_URL);
+const db = mysql.createPool({
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: Number(process.env.MYSQLPORT),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+db.getConnection((err, conn) => {
+  if (err) {
+    console.log("DB CONNECTION ERROR:", err);
+  } else {
+    console.log("DB CONNECTED ✅");
+    conn.release();
+  }
+});
 
 // ➕ ADD PRODUCT
 app.post("/products", (req, res) => {
