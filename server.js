@@ -6,16 +6,10 @@ app.use(cors({
   origin: "*"
 }));
 app.use(express.json());
-const db = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: Number(process.env.MYSQLPORT),
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+const mysql = require("mysql2");
+console.log("MYSQL_URL:", process.env.MYSQL_URL);
+
+const db = mysql.createPool(process.env.MYSQL_URL);
 
 db.getConnection((err, conn) => {
   if (err) {
