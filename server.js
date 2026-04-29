@@ -6,7 +6,6 @@ app.use(cors({
   origin: "*"
 }));
 app.use(express.json());
-const mysql = require("mysql2");
 console.log("MYSQL_URL:", process.env.MYSQL_URL);
 
 const db = mysql.createPool(process.env.MYSQL_URL);
