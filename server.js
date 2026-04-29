@@ -10,13 +10,11 @@ console.log("MYSQL_URL:", process.env.MYSQL_URL);
 
 const db = mysql.createPool(process.env.MYSQL_URL);
 
-db.getConnection((err, conn) => {
-  if (err) {
-    console.log("DB CONNECTION ERROR:", err);
-  } else {
-    console.log("DB CONNECTED ✅");
-    conn.release();
-  }
+app.get("/debug-db", (req, res) => {
+  db.query("SHOW TABLES", (err, result) => {
+    if (err) return res.send(err);
+    res.send(result);
+  });
 });
 
 // ➕ ADD PRODUCT
@@ -35,7 +33,7 @@ app.post("/products", (req, res) => {
 
 // 📥 GET PRODUCTS
 app.get("/products", (req, res) => {
-  db.query("SELECT * FROM railway.products", (err, result) => {
+  db.query("SELECT * FROM products", (err, result) => {
   if (err) return res.send(err);
   res.send(result);
 });
@@ -81,7 +79,7 @@ app.post("/sales", (req, res) => {
 });
 // 📥 GET SALES
 app.get("/sales", (req, res) => {
-  db.query("SELECT * FROM railway.sales", (err, result) => {
+  db.query("SELECT * FROM sales", (err, result) => {
     if (err) return res.send(err);
     res.send(result);
   });
@@ -103,7 +101,7 @@ app.post("/expenses", (req, res) => {
 
 // 📥 GET EXPENSES
 app.get("/expenses", (req, res) => {
-  db.query("SELECT * FROM railway.expenses", (err, result) => {
+  db.query("SELECT * FROM expenses", (err, result) => {
     if (err) return res.send(err);
     res.send(result);
   });
