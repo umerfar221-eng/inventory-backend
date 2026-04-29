@@ -130,11 +130,28 @@ app.put("/products/:id", (req, res) => {
 });
 
 // DELETE SALE
+// DELETE SALE (WITH DEBUG)
 app.delete("/sales/:id", (req, res) => {
-  db.query("DELETE FROM sales WHERE id = ?", [req.params.id], (err) => {
-    if (err) return res.send(err);
-    res.send("Deleted");
-  });
+  console.log("DELETE HIT ID:", req.params.id);
+
+  db.query(
+    "DELETE FROM sales WHERE id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        console.log("DELETE ERROR:", err);
+        return res.send(err);
+      }
+
+      console.log("ROWS AFFECTED:", result.affectedRows);
+
+      if (result.affectedRows === 0) {
+        return res.send("No record found");
+      }
+
+      res.send("Deleted");
+    }
+  );
 });
 app.get("/test-sale", (req, res) => {
   db.query(
