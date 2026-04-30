@@ -89,11 +89,16 @@ app.get("/sales", (req, res) => {
 app.post("/expenses", (req, res) => {
   const { title, amount, date } = req.body;
 
+  console.log("EXPENSE RECEIVED:", req.body);
+
   db.query(
     "INSERT INTO expenses (title, amount, date) VALUES (?, ?, ?)",
     [title, amount, date],
     (err, result) => {
-      if (err) return res.send(err);
+      if (err) {
+        console.log("DB ERROR:", err);
+        return res.send(err);
+      }
       res.send("Expense added");
     }
   );
