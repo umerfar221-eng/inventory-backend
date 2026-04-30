@@ -143,6 +143,14 @@ app.delete("/sales/:id", (req, res) => {
         return res.send(err);
       }
 
+      // DELETE EXPENSE
+app.delete("/expenses/:id", (req, res) => {
+  db.query("DELETE FROM expenses WHERE id = ?", [req.params.id], (err, result) => {
+    if (err) return res.send(err);
+    res.send("Expense Deleted");
+  });
+});
+
       console.log("ROWS AFFECTED:", result.affectedRows);
 
       if (result.affectedRows === 0) {
