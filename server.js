@@ -111,7 +111,75 @@ app.get("/expenses", (req, res) => {
     res.send(result);
   });
 });
+// 📥 GET EXPENSES
+app.get("/expenses", (req, res) => {
+  db.query("SELECT * FROM railway.expenses", (err, result) => {
+    if (err) return res.send(err);
+    res.send(result);
+  });
+});
 
+
+// ================= PURCHASES =================
+
+// ➕ ADD PURCHASE
+app.post("/purchases", (req, res) => {
+  const {
+    supplier,
+    product,
+    quantity,
+    cost_price,
+    selling_price,
+    container_name,
+    cash_paid,
+    bank_paid,
+    pending,
+    date
+  } = req.body;
+
+  db.query(
+    `INSERT INTO purchases
+    (supplier, product, quantity, cost_price, selling_price, container_name, cash_paid, bank_paid, pending, date)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      supplier,
+      product,
+      quantity,
+      cost_price,
+      selling_price,
+      container_name,
+      cash_paid,
+      bank_paid,
+      pending,
+      date
+    ],
+    (err, result) => {
+      if (err) {
+        console.log("PURCHASE ERROR:", err);
+        return res.send(err);
+      }
+
+      // ✅ AUTO STOCK UPDATE
+      db.query(
+        "UPDATE products SET stock = stock + ? WHERE name = ?",
+        [quantity, product],
+        (err) => {
+          if (err) console.log("STOCK ERROR:", err);
+        }
+      );
+
+      res.send("Purchase Added");
+    }
+  );
+});
+
+// 📥 GET PURCHASES
+app.get("/purchases", (req, res) => {
+  db.query("SELECT * FROM purchases", (err, result) => {
+    if (err) return res.send(err);
+    res.send(result);
+  });
+});
 // DELETE PRODUCT
 app.delete("/products/:id", (req, res) => {
   db.query("DELETE FROM products WHERE id = ?", [req.params.id], (err) => {
