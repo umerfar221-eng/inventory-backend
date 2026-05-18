@@ -131,6 +131,7 @@ app.post("/purchases", (req, res) => {
     cost_price,
     selling_price,
     container_name,
+    container_id,
     cash_paid,
     bank_paid,
     pending,
