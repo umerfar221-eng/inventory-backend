@@ -175,6 +175,26 @@ app.post("/purchases", (req, res) => {
 
 // 📥 GET PURCHASES
 app.get("/purchases", (req, res) => {
+// ❌ DELETE PURCHASE
+app.delete("/purchases/:id", (req, res) => {
+
+  const { id } = req.params;
+
+  db.query(
+    "DELETE FROM purchases WHERE id = ?",
+    [id],
+    (err, result) => {
+
+      if (err) {
+        console.log("DELETE PURCHASE ERROR:", err);
+        return res.send(err);
+      }
+
+      res.send("Purchase Deleted");
+
+    }
+  );
+});
   db.query("SELECT * FROM purchases", (err, result) => {
     if (err) return res.send(err);
     res.send(result);
